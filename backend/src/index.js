@@ -45,10 +45,16 @@ app.use('*', (req, res) => {
 });
 
 const port = process.env.PORT || 4000;
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Backend listening on port ${port}`);
-  console.log(`Health check: http://localhost:${port}/health`);
-});
 
+// Only start server if not in serverless environment
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Backend listening on port ${port}`);
+    console.log(`Health check: http://localhost:${port}/health`);
+  });
+}
+
+// Export for Vercel
+export default app;
 
